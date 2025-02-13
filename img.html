@@ -209,7 +209,7 @@
       <h1>Love in HD – Lifetime Subscription, No Cancelation! 😂</h1>
       <div class="gallery">
         <div class="image-container">
-          <img src="images/image1.jpg" alt="Image 1" />
+          <img src="images/image1.jpg" alt="Patience Level 1" />
           <div class="overlay-text">
             <h3>Caffeine & Cuddles – The Perfect Blend!</h3>
             <p>
@@ -219,7 +219,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image2.jpg" alt="Image 2" />
+          <img src="images/image2.jpg" alt="Patience Level 2" />
           <div class="overlay-text">
             <h3>Adventuring Through Life Together</h3>
             <p>
@@ -230,7 +230,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image3.jpg" alt="Image 3" />
+          <img src="images/image3.jpg" alt="Patience Level 3" />
           <div class="overlay-text">
             <h3>You Said 'That Way'… So Here We Go!</h3>
             <p>
@@ -240,7 +240,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image4.jpg" alt="Image 4" />
+          <img src="images/image4.jpg" alt="Patience Level 4" />
           <div class="overlay-text">
             <h3>Taking Our Relationship to New Heights… Literally!</h3>
             <p>
@@ -250,7 +250,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image5.jpg" alt="Image 5" />
+          <img src="images/image5.jpg" alt="Patience Level 5" />
           <div class="overlay-text">
             <h3>When the View is Stunning, But You are the Main Attraction</h3>
             <p>
@@ -296,35 +296,59 @@
             });
         });
 
-        document.addEventListener(
-          "click",
-          function () {
-            audio.play().catch(function (error) {
-              console.log("Audio play failed:", error);
-            });
-          },
-          { once: true }
-        );
-
         // Mobile touch interaction for images
         const imageContainers = document.querySelectorAll(".image-container");
 
+        // Function to remove active class from all containers
+        const removeAllActive = () => {
+          imageContainers.forEach((container) => {
+            container.classList.remove("active");
+          });
+        };
+
+        // Add touch/click events to each container
         imageContainers.forEach((container) => {
-          container.addEventListener("click", function () {
-            // Remove active class from all containers
-            imageContainers.forEach((c) => c.classList.remove("active"));
-            // Add active class to clicked container
-            this.classList.add("active");
+          // Handle both touch and click events
+          ["touchstart", "click"].forEach((eventType) => {
+            container.addEventListener(eventType, function (e) {
+              e.preventDefault(); // Prevent default behavior
+              e.stopPropagation(); // Stop event from bubbling up
+
+              // If this container is already active, deactivate it
+              if (this.classList.contains("active")) {
+                this.classList.remove("active");
+              } else {
+                // Remove active class from all containers
+                removeAllActive();
+                // Add active class to current container
+                this.classList.add("active");
+              }
+            });
           });
         });
 
-        // Close overlay when clicking outside
+        // Close overlay when clicking/touching outside
         document.addEventListener("click", function (e) {
           if (!e.target.closest(".image-container")) {
-            imageContainers.forEach((container) => {
-              container.classList.remove("active");
-            });
+            removeAllActive();
           }
+        });
+
+        document.addEventListener("touchstart", function (e) {
+          if (!e.target.closest(".image-container")) {
+            removeAllActive();
+          }
+        });
+
+        // Prevent body scrolling when touching image containers
+        imageContainers.forEach((container) => {
+          container.addEventListener(
+            "touchmove",
+            function (e) {
+              e.preventDefault();
+            },
+            { passive: false }
+          );
         });
       });
     </script>
