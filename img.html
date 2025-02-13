@@ -100,6 +100,19 @@
         .image-container {
           width: 100%;
           flex: none;
+          height: 300px;
+          margin-bottom: 10px;
+        }
+
+        .image-container .overlay-text {
+          opacity: 0;
+          transform: translateY(100%);
+          transition: all 0.3s ease;
+        }
+
+        .image-container.active .overlay-text {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
 
@@ -122,7 +135,7 @@
         }
       }
 
-      /* Updated Audio Player Styling */
+      /* Audio Player Styling */
       .audio-container {
         margin-top: 20px;
         margin-bottom: 40px;
@@ -153,7 +166,7 @@
         border-radius: 5px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 0; /* Remove margin */
+        margin: 0;
       }
 
       .play-button:hover {
@@ -196,7 +209,7 @@
       <h1>Love in HD – Lifetime Subscription, No Cancelation! 😂</h1>
       <div class="gallery">
         <div class="image-container">
-          <img src="images/image1.jpg" alt="Patience Level 1" />
+          <img src="images/image1.jpg" alt="Image 1" />
           <div class="overlay-text">
             <h3>Caffeine & Cuddles – The Perfect Blend!</h3>
             <p>
@@ -206,7 +219,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image2.jpg" alt="Patience Level 2" />
+          <img src="images/image2.jpg" alt="Image 2" />
           <div class="overlay-text">
             <h3>Adventuring Through Life Together</h3>
             <p>
@@ -217,7 +230,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image3.jpg" alt="Patience Level 3" />
+          <img src="images/image3.jpg" alt="Image 3" />
           <div class="overlay-text">
             <h3>You Said 'That Way'… So Here We Go!</h3>
             <p>
@@ -227,7 +240,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image4.jpg" alt="Patience Level 4" />
+          <img src="images/image4.jpg" alt="Image 4" />
           <div class="overlay-text">
             <h3>Taking Our Relationship to New Heights… Literally!</h3>
             <p>
@@ -237,7 +250,7 @@
           </div>
         </div>
         <div class="image-container">
-          <img src="images/image5.jpg" alt="Patience Level 5" />
+          <img src="images/image5.jpg" alt="Image 5" />
           <div class="overlay-text">
             <h3>When the View is Stunning, But You are the Main Attraction</h3>
             <p>
@@ -267,26 +280,22 @@
     </div>
 
     <script>
-      // Wait for the DOM to be fully loaded
       document.addEventListener("DOMContentLoaded", function () {
+        // Audio player functionality
         const audio = document.querySelector("audio");
         const playButton = document.querySelector(".play-button");
 
-        // Add click event listener to the play button
         playButton.addEventListener("click", function () {
-          // Try to play the audio
           audio
             .play()
             .then(() => {
-              playButton.style.display = "none"; // Hide the button after successful play
+              playButton.style.display = "none";
             })
             .catch((error) => {
               console.log("Audio play failed:", error);
-              // Keep the button visible if autoplay fails
             });
         });
 
-        // Optional: Add click event listener to the whole document
         document.addEventListener(
           "click",
           function () {
@@ -295,7 +304,28 @@
             });
           },
           { once: true }
-        ); // The once option ensures this only happens once
+        );
+
+        // Mobile touch interaction for images
+        const imageContainers = document.querySelectorAll(".image-container");
+
+        imageContainers.forEach((container) => {
+          container.addEventListener("click", function () {
+            // Remove active class from all containers
+            imageContainers.forEach((c) => c.classList.remove("active"));
+            // Add active class to clicked container
+            this.classList.add("active");
+          });
+        });
+
+        // Close overlay when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!e.target.closest(".image-container")) {
+            imageContainers.forEach((container) => {
+              container.classList.remove("active");
+            });
+          }
+        });
       });
     </script>
   </body>
