@@ -122,7 +122,7 @@
         }
       }
 
-      /* Audio Player Styling */
+      /* Updated Audio Player Styling */
       .audio-container {
         margin-top: 20px;
         margin-bottom: 40px;
@@ -131,6 +131,34 @@
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         animation: float 3s ease-in-out infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .audio-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      /* Play Button Styling */
+      .play-button {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0; /* Remove margin */
+      }
+
+      .play-button:hover {
+        background-color: #ff5252;
+        transform: scale(1.05);
       }
 
       /* Floating Animation for Audio Player */
@@ -203,7 +231,7 @@
           <div class="overlay-text">
             <h3>Taking Our Relationship to New Heights… Literally!</h3>
             <p>
-              Nature’s masterpiece + my favorite person = the perfect picture!
+              Nature's masterpiece + my favorite person = the perfect picture!
               💚
             </p>
           </div>
@@ -221,12 +249,15 @@
         </div>
       </div>
 
-      <!-- Background Music -->
+      <!-- Audio Player with Play Button -->
       <div class="audio-container">
-        <audio autoplay loop muted controls>
-          <source src="audio.mp3" type="audio/mp3" />
-          Your browser does not support the audio tag.
-        </audio>
+        <div class="audio-wrapper">
+          <button class="play-button">Click Me ♫</button>
+          <audio loop controls>
+            <source src="audio.mp3" type="audio/mp3" />
+            Your browser does not support the audio tag.
+          </audio>
+        </div>
       </div>
 
       <!-- Footer -->
@@ -234,5 +265,38 @@
         <p>Made With ❤️ By Your Number One Weirdo | Love in HD Edition</p>
       </div>
     </div>
+
+    <script>
+      // Wait for the DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        const audio = document.querySelector("audio");
+        const playButton = document.querySelector(".play-button");
+
+        // Add click event listener to the play button
+        playButton.addEventListener("click", function () {
+          // Try to play the audio
+          audio
+            .play()
+            .then(() => {
+              playButton.style.display = "none"; // Hide the button after successful play
+            })
+            .catch((error) => {
+              console.log("Audio play failed:", error);
+              // Keep the button visible if autoplay fails
+            });
+        });
+
+        // Optional: Add click event listener to the whole document
+        document.addEventListener(
+          "click",
+          function () {
+            audio.play().catch(function (error) {
+              console.log("Audio play failed:", error);
+            });
+          },
+          { once: true }
+        ); // The once option ensures this only happens once
+      });
+    </script>
   </body>
 </html>
