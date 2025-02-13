@@ -59,8 +59,16 @@
         animation: fadeIn 1s forwards;
       }
 
-      .image-container:hover {
-        flex: 4;
+      /* Hover Effect for PC */
+      @media (min-width: 769px) {
+        .image-container:hover {
+          flex: 4;
+        }
+
+        .image-container:hover .overlay-text {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .gallery img {
@@ -82,9 +90,24 @@
         transition: all 0.3s;
       }
 
-      .image-container:hover .overlay-text {
-        opacity: 1;
-        transform: translateY(0);
+      /* Mobile-friendly adjustments */
+      @media (max-width: 768px) {
+        .gallery {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .image-container {
+          width: 100%;
+          flex: none;
+        }
+      }
+
+      /* Ensure images stack on mobile */
+      @media (max-width: 480px) {
+        .gallery {
+          width: 100%;
+        }
       }
 
       /* Animation for Fade-in Effect */
@@ -102,7 +125,7 @@
       /* Audio Player Styling */
       .audio-container {
         margin-top: 20px;
-        margin-bottom: 40px; /* Space before footer */
+        margin-bottom: 40px;
         padding: 10px;
         background: rgba(255, 255, 255, 0.7);
         border-radius: 10px;
@@ -200,7 +223,7 @@
 
       <!-- Background Music -->
       <div class="audio-container">
-        <audio autoplay loop controls>
+        <audio autoplay loop muted controls>
           <source src="audio.mp3" type="audio/mp3" />
           Your browser does not support the audio tag.
         </audio>
